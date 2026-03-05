@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 
-const HOTMART_LINK = "https://pay.hotmart.com/YOUR_LINK_HERE";
+const HOTMART_LINK = "https://pay.hotmart.com/R104750386A?off=7bhbhpbj&hotfeature=51&_hi=eyJzaWQiOiIwNDgwOTJlMDhkZDg0ZTM0YjdiMzk5N2M3ZTNkNDI5ZCJ9.1772747467743&bid=1772747473072";
 
 const FAQItem = ({ question, answer }: { question: string; answer: string }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -98,82 +98,129 @@ const SectionTitle = ({ subtitle, title, centered = false }: { subtitle: string,
 );
 
 export default function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const heroRef = useRef(null);
   const y = useTransform(scrollYProgress, [0, 1], [0, -200]);
 
   return (
-    <div className="min-h-screen bg-[#fdfcfb] font-sans text-brand-black selection:bg-gold-light/30">
+    <div className="min-h-screen bg-[#fdfcfb] font-sans text-brand-black selection:bg-gold-light/30 overflow-x-hidden">
       {/* Sticky Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gold-light/10 py-4 px-6 flex justify-between items-center">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gold-light/10 py-4 px-4 md:px-8 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <img src="/input_file_1.png" alt="Logo" className="h-8 w-auto grayscale" />
-          <span className="font-serif font-bold text-xl tracking-tighter">Rompe el Silencio</span>
+          <span className="font-serif font-bold text-lg md:text-xl tracking-tighter">Rompe el Silencio</span>
         </div>
+        
+        {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
           <a href="#beneficios" className="text-sm font-medium hover:text-gold-medium transition-colors">Beneficios</a>
           <a href="#sobre-mi" className="text-sm font-medium hover:text-gold-medium transition-colors">Sobre Mí</a>
           <a href="#garantia" className="text-sm font-medium hover:text-gold-medium transition-colors">Garantía</a>
           <CTAButton className="py-2 px-6 text-xs" />
         </div>
-        <button className="md:hidden text-gold-dark">
-          <Menu className="h-6 w-6" />
+
+        {/* Mobile Menu Toggle */}
+        <button 
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="md:hidden p-2 text-gold-dark hover:bg-gold-light/10 rounded-lg transition-colors"
+          aria-label="Toggle Menu"
+        >
+          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </header>
 
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 z-40 bg-white pt-24 px-6 md:hidden"
+          >
+            <nav className="flex flex-col gap-6 text-center">
+              <a 
+                href="#beneficios" 
+                onClick={() => setIsMenuOpen(false)}
+                className="text-2xl font-serif font-bold text-brand-black hover:text-gold-medium"
+              >
+                Beneficios
+              </a>
+              <a 
+                href="#sobre-mi" 
+                onClick={() => setIsMenuOpen(false)}
+                className="text-2xl font-serif font-bold text-brand-black hover:text-gold-medium"
+              >
+                Sobre Mí
+              </a>
+              <a 
+                href="#garantia" 
+                onClick={() => setIsMenuOpen(false)}
+                className="text-2xl font-serif font-bold text-brand-black hover:text-gold-medium"
+              >
+                Garantía
+              </a>
+              <div className="pt-6 border-t border-gold-light/20">
+                <CTAButton className="w-full py-6 text-base" />
+              </div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Hero Section - Editorial Style */}
-      <section ref={heroRef} className="relative pt-32 pb-24 md:pt-48 md:pb-40 px-6 overflow-hidden">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-16 items-center">
-          <div className="lg:col-span-7 z-10">
+      <section ref={heroRef} className="relative pt-32 pb-16 md:pt-48 md:pb-40 px-4 md:px-8 overflow-hidden">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div className="lg:col-span-7 z-10 text-center lg:text-left">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <p className="text-gold-medium font-bold uppercase tracking-[0.4em] text-xs mb-6">Guía Práctica de Vida</p>
-              <h1 className="text-6xl md:text-8xl font-black leading-[0.9] tracking-tighter mb-8 text-brand-black">
+              <p className="text-gold-medium font-bold uppercase tracking-[0.4em] text-[10px] md:text-xs mb-4 md:mb-6">Guía Práctica de Vida</p>
+              <h1 className="text-5xl sm:text-6xl md:text-8xl font-black leading-[0.9] tracking-tighter mb-6 md:mb-8 text-brand-black">
                 Encuentra tu <br />
                 <span className="italic font-serif font-normal text-gold-medium">Propósito</span> <br />
                 de Vida.
               </h1>
-              <p className="text-xl md:text-2xl text-gray-500 font-light leading-relaxed mb-12 max-w-xl">
+              <p className="text-lg md:text-2xl text-gray-500 font-light leading-relaxed mb-8 md:mb-12 max-w-xl mx-auto lg:mx-0">
                 Despierta el sentido a tu existencia y deja de vivir en piloto automático. Una guía diseñada para reencontrarte.
               </p>
-              <div className="flex flex-col sm:flex-row items-center gap-6">
-                <CTAButton />
-                <div className="flex flex-col items-start gap-1">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
+                <CTAButton className="w-full sm:w-auto" />
+                <div className="flex flex-col items-center sm:items-start gap-1">
                   <div className="flex items-center gap-2 text-gold-medium font-bold text-sm">
                     <ShieldCheck className="h-4 w-4" />
                     <span>PAGO 100% SEGURO</span>
                   </div>
-                  <p className="text-xs text-gray-400">Garantía de devolución de 7 días</p>
+                  <p className="text-[10px] md:text-xs text-gray-400">Garantía de devolución de 7 días</p>
                 </div>
               </div>
             </motion.div>
           </div>
-          <div className="lg:col-span-5 relative">
+          <div className="lg:col-span-5 relative mt-12 lg:mt-0">
             <motion.div
               initial={{ opacity: 0, scale: 0.8, rotate: 5 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
               transition={{ duration: 1, ease: "easeOut" }}
-              className="relative z-10"
+              className="relative z-10 max-w-sm mx-auto lg:max-w-none"
             >
               <img 
                 src="/input_file_2.png" 
                 alt="Book Cover" 
-                className="w-full h-auto rounded-2xl shadow-[0_50px_100px_-20px_rgba(91,64,24,0.3)] border border-gold-light/20"
+                className="w-full h-auto rounded-2xl shadow-[0_30px_60px_-12px_rgba(91,64,24,0.3)] md:shadow-[0_50px_100px_-20px_rgba(91,64,24,0.3)] border border-gold-light/20"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute -bottom-10 -left-10 bg-white p-8 rounded-2xl shadow-2xl border border-gold-light/10 hidden md:block">
+              <div className="absolute -bottom-6 -left-6 md:-bottom-10 md:-left-10 bg-white p-4 md:p-8 rounded-2xl shadow-2xl border border-gold-light/10 max-w-[200px] md:max-w-none">
                 <div className="flex gap-1 mb-2">
-                  {[1,2,3,4,5].map(i => <Star key={i} className="h-4 w-4 text-gold-medium fill-gold-medium" />)}
+                  {[1,2,3,4,5].map(i => <Star key={i} className="h-3 w-3 md:h-4 md:h-4 text-gold-medium fill-gold-medium" />)}
                 </div>
-                <p className="font-serif italic text-lg text-brand-black">"Cambió mi perspectiva por completo."</p>
-                <p className="text-xs text-gray-400 mt-2 uppercase tracking-widest">— María G.</p>
+                <p className="font-serif italic text-sm md:text-lg text-brand-black leading-tight">"Cambió mi perspectiva por completo."</p>
+                <p className="text-[10px] text-gray-400 mt-2 uppercase tracking-widest">— María G.</p>
               </div>
             </motion.div>
-            {/* Decorative Gold Elements */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gold-light/10 rounded-full blur-[100px] -z-10" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[100%] md:w-[120%] md:h-[120%] bg-gold-light/10 rounded-full blur-[60px] md:blur-[100px] -z-10" />
           </div>
         </div>
       </section>
